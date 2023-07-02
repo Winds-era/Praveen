@@ -43,7 +43,6 @@ const activateTimer = (time) => {
                 sendData()
             }, 500)
         }
-
         timerBox.innerHTML = `<b>${displayMinutes}:${displaySeconds}</b>`
     }, 1000)
 }
