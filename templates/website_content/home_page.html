@@ -1,14 +1,16 @@
 {% extends 'root.html' %}
 {% block content %}
-<div>
-    <h1>This is the body</h1>
-    <p>here is where you put the stuff that should be there in the website.</p>
-    <p>{{some_string}}</p>
-    <p>{{some_number}}</p>
 
-    {% for question in list_of_values %}
-    {% include 'personal/snippets/body_snippet.html' with value=question %}
-    {% endfor %}
-</div>
+    {% if request.user.user_role == 'STUDENT' %}
+        {% include 'snippets/student.html' %}
+    {% endif %}
+
+    {% if request.user.user_role == 'MENTOR' %}
+        {% include 'snippets/mentor.html' %}
+    {% endif %}
+
+    {% if request.user.user_role == 'ADMIN' %}
+        {% include 'snippets/admin.html' %}
+    {% endif %}
 
 {% endblock content%} 
