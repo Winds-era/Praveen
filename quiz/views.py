@@ -1,9 +1,36 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Quiz
 from django.views.generic import ListView
 from django.http import JsonResponse
 from questions.models import Question, Answer
 from results.models import Result
+from .forms import QuizForm
+
+def quizzes(request):
+    quizzes = Quiz.objects.all()
+    return render(request, 'quizes/quizzes.html', {'quizzes': quizzes})
+
+def add_quiz(request):
+    if request.method == 'POST':
+        form = QuizForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('quiz:quizzes')
+    else:
+        form = QuizForm()
+    return render(request, 'quizes/add_quiz.html', {'form': form})
+
+def update_quiz(request, quiz_id):
+    quiz = Quiz.objects.get(id=quiz_id)
+    if request.method == 'POST':
+        form = QuizForm(request.POST, instance=quiz)
+        if form.is_valid():
+            form.save()
+            return redirect('quiz:quizzes')
+    else:
+        form = QuizForm(instance=quiz)
+    return render(request, 'quizes/update_quiz.html', {'form': form})
+
 
 class QuizListView(ListView):
     model = Quiz 
