@@ -1,0 +1,21 @@
+<!-- quizzes.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Quiz Manager</title>
+</head>
+<body>
+    <h1>Quiz Manager</h1>
+
+    <a href="{% url 'quiz:add_quiz' %}"><button>Add New Quiz</button></a>
+
+    <h2>Previous Quizzes</h2>
+    <ul>
+        {% for quiz in quizzes %}
+            <li><a href="{% url 'quiz:update_quiz' quiz.id %}">{{ quiz.name }}</a></li>
+        {% empty %}
+            <li>No quizzes found.</li>
+        {% endfor %}
+    </ul>
+</body>
+</html>
