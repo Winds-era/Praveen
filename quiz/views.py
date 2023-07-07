@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from .models import Quiz
 from django.views.generic import ListView
-from django.http import JsonResponse
+from django.http import HttpResponseNotAllowed, JsonResponse
 from questions.models import Question, Answer
 from results.models import Result
 from .forms import QuizForm
+from django.shortcuts import get_object_or_404
 
 def quizzes(request):
     quizzes = Quiz.objects.all()
@@ -21,7 +22,7 @@ def add_quiz(request):
     return render(request, 'quizes/add_quiz.html', {'form': form})
 
 def update_quiz(request, quiz_id):
-    quiz = Quiz.objects.get(id=quiz_id)
+    quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
         form = QuizForm(request.POST, instance=quiz)
         if form.is_valid():
@@ -29,8 +30,16 @@ def update_quiz(request, quiz_id):
             return redirect('quiz:quizzes')
     else:
         form = QuizForm(instance=quiz)
-    return render(request, 'quizes/update_quiz.html', {'form': form})
+    return render(request, 'quizes/update_quiz.html', {'form': form, 'quiz': quiz})
 
+
+def delete_quiz(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    if request.method == 'POST':
+        quiz.delete()
+        return redirect('quiz:quizzes')
+    else:
+        return HttpResponseNotAllowed(['POST'])
 
 class QuizListView(ListView):
     model = Quiz 

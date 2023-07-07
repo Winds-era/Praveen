@@ -1,10 +1,7 @@
 <!-- update_quiz.html -->
-<!DOCTYPE html>
-<html>
-<head>
-    <title>Update Quiz</title>
-</head>
-<body>
+{% extends "root.html" %}
+{% block content %}
+<div>
     <h1>Update Quiz</h1>
 
     <form method="post">
@@ -12,5 +9,11 @@
         {{ form.as_p }}
         <button type="submit">Save</button>
     </form>
-</body>
-</html>
+
+    <form method="post" action="{% url 'quiz:delete_quiz' quiz.id %}">
+        {% csrf_token %}
+        <button type="submit">Delete Quiz</button>
+    </form>
+</div>
+{% endblock content %}
+
