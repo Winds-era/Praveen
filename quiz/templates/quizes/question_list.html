@@ -1,0 +1,32 @@
+<!-- question_list.html -->
+{% extends "root.html" %}
+{% block content %}
+    <h1>Questions for {{ quiz.name }}</h1>
+    <a href="{% url 'quiz:add_question' quiz.id %}"><button>Add New Question</button></a>
+    <ul>
+        {% for question in questions %}
+            <li>
+                <p>{{ question.text }}</p>
+                <ul>
+                    {% for answer in question.get_answers %}
+                        <li>
+                            {{ answer.text }}
+                            {% if answer.correct %}
+                                (Correct)
+                            {% endif %}
+                        </li>
+                    {% empty %}
+                        <li>No answers added for this question.</li>
+                    {% endfor %}
+                </ul>
+                <form method="post" action="{% url 'quiz:delete_question' question.id %}">
+                    {% csrf_token %}
+                    <button type="submit">Delete</button>
+                </form>
+                <a href="{% url 'quiz:update_question' question.id %}"><button>Update</button></a>
+            </li>
+        {% empty %}
+            <li>No questions added yet.</li>
+        {% endfor %}
+    </ul>
+{% endblock content %}

@@ -14,6 +14,8 @@
         {% csrf_token %}
         <button type="submit">Delete Quiz</button>
     </form>
+    
+    <a href="{% url 'quiz:question_list' quiz.id %}">View Questions</a>
 </div>
 {% endblock content %}
 

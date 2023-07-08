@@ -4,8 +4,63 @@ from django.views.generic import ListView
 from django.http import HttpResponseNotAllowed, JsonResponse
 from questions.models import Question, Answer
 from results.models import Result
-from .forms import QuizForm
+from .forms import QuizForm, QuestionForm, AnswerFormSet
 from django.shortcuts import get_object_or_404
+from django.forms import inlineformset_factory
+
+def question_list(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    questions = quiz.question_set.all()
+    return render(request, 'quizes/question_list.html', {'quiz': quiz, 'questions': questions})
+
+def add_question(request, quiz_id):
+    quiz = get_object_or_404(Quiz, id=quiz_id)
+    if request.method == 'POST':
+        question_form = QuestionForm(request.POST)
+        answer_formset = AnswerFormSet(request.POST)
+        if question_form.is_valid() and answer_formset.is_valid():
+            question = question_form.save(commit=False)
+            question.quiz = quiz
+            question.save()
+            answer_formset.instance = question
+            answer_formset.save()
+            return redirect('quiz:question_list', quiz_id=quiz.id)
+    else:
+        question_form = QuestionForm()
+        answer_formset = AnswerFormSet()
+    return render(request, 'quizes/add_question.html', {'quiz': quiz, 'question_form': question_form, 'answer_formset': answer_formset})
+
+def delete_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    if request.method == 'POST':
+        question.delete()
+        return redirect('quiz:question_list', quiz_id=question.quiz.id)
+    else:
+        return HttpResponseNotAllowed(['POST'])
+        
+def update_question(request, question_id):
+    question = get_object_or_404(Question, id=question_id)
+    AnswerFormSet = inlineformset_factory(Question, Answer, fields=('text', 'correct'), extra=0)
+
+    if request.method == 'POST':
+        form = QuestionForm(request.POST, instance=question)
+        formset = AnswerFormSet(request.POST, instance=question)
+        if form.is_valid() and formset.is_valid():
+            form.save()
+            formset.save()
+            return redirect('quiz:question_list', quiz_id=question.quiz.id)
+    else:
+        form = QuestionForm(instance=question)
+        formset = AnswerFormSet(instance=question)
+    return render(request, 'quizes/update_question.html', {'form': form, 'formset': formset})
+
+def delete_answer(request, answer_id):
+    answer = get_object_or_404(Answer, id=answer_id)
+    if request.method == 'POST':
+        answer.delete()
+        return redirect('quiz:update_question', question_id=answer.question.id)
+    else:
+        return HttpResponseNotAllowed(['POST'])
 
 def quizzes(request):
     quizzes = Quiz.objects.all()

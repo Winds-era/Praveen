@@ -1,0 +1,44 @@
+<!-- add_question.html -->
+{% extends "root.html" %}
+{% block content %}
+    <h1>Add New Question</h1>
+    <form method="post" id="addQuestionForm">
+        {% csrf_token %}
+        <div>
+            <label for="{{ question_form.text.id_for_label }}">Question:</label>
+            {{ question_form.text }}
+        </div>
+        {{ answer_formset.management_form }}
+        <div id="answersContainer">
+            {% for form in answer_formset.forms %}
+                <div>
+                    <label for="{{ form.text.id_for_label }}">Answer:</label>
+                    {{ form.text }}
+                    <label for="{{ form.correct.id_for_label }}">Correct:</label>
+                    {{ form.correct }}
+                </div>
+            {% endfor %}
+        </div>
+        <button type="button" id="addAnswerBtn">Add Answer</button>
+        <button type="submit">Save</button>
+    </form>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script>
+        $(document).ready(function() {
+            var totalForms = {{ answer_formset.total_form_count }};
+
+            $('#addAnswerBtn').click(function() {
+                var newAnswerHtml =
+                    `<div>
+                        <label for="id_form-${totalForms}-text">Answer:</label>
+                        <input type="text" name="form-${totalForms}-text" maxlength="200" required id="id_form-${totalForms}-text">
+                        <label for="id_form-${totalForms}-correct">Correct:</label>
+                        <input type="checkbox" name="form-${totalForms}-correct" id="id_form-${totalForms}-correct">
+                    </div>`;
+
+                $('#answersContainer').append(newAnswerHtml);
+                totalForms++;
+            });
+        });
+    </script>
+{% endblock content %}
