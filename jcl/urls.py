@@ -30,6 +30,4 @@ urlpatterns = [
     # quiz section
     path('quiz/', include('quiz.urls', namespace='quiz')),
 
-    # course section
-    path('courseb/', include('course.urls', namespace='course')),
-] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)
+] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
