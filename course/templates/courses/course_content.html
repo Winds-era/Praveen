@@ -1,0 +1,17 @@
+{% extends 'root.html' %} {% block content %}
+<div class="container">
+  <h1>Video List</h1>
+  <div class="row">
+    {% for i in a %}
+    <div class="col-md-4">
+      <h3>{{ i.title }}</h3>
+      <video width="100%" controls>
+        <source src="{{ i.video_file }}" type="video/mp4" />
+      </video>
+      <p>{{ i.description }}</p>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+{% endblock%}
