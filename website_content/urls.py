@@ -5,7 +5,7 @@ from . import views
 
 app_name = 'website_content'
 urlpatterns = [
-    path('home/', views.home_view, name='home'),
+    path('home/', home_view, name='home'),
     path('home/<str:name>/', course_detail, name='course_detail'),
     path('home/<str:name>/<str:slug>/',
          filtered_content, name='filtered_content'),
