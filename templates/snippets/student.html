@@ -5,6 +5,53 @@
         <p>{{some_number}}</p>
         <h4><a class="nav-link" href={% url 'quiz:main-view' %} style="color:blue">Attempt Quiz</a></h4>
 
+        <style>
+            .text-shadow-1 { text-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25); }
+            .card-cover {
+                background-repeat: no-repeat;
+                background-position: center center;
+                background-size: cover;
+            }
+            a {
+                text-decoration: none;
+            }
+        </style>
+        <section class="pt-5 pb-9 py-md-11 bg-white">
+            <div class="container container-wd">
+                <div class="row align-items-end mb-7">
+                    <div class="col-xl mb-5 mb-xl-0">
+                        <h1 class="mb-1">Explore Featured Courses</h1>
+                        <p class="font-size-lg text-capitalize mb-0">Discover your perfect program in our courses.</p>
+                    </div>
+                    <div class="col-xl-auto">
+                        <!-- Nav -->
+                        <div class="nav justify-content-lg-start justify-content-xl-center justify-content-center tab-nav-1" id="pills-tab" role="tablist">
+                            <a class="btn-sm btn-pill me-1 mb-1 text-dark fw-medium px-6 active" id="pills-all-tab" data-bs-toggle="tab" href="#pills-all" role="tab" aria-controls="pills-all" aria-selected="true">
+                                All Categories
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="container px-4 py-5" id="custom-cards">
+                    <div class="row row-cols-1 row-cols-lg-3 align-items-stretch g-4 py-5">
+                        {% for course_type in catogery %}
+                            <div class="col">
+                                <a href="{{ course_type.name }}/">
+                                    <div class="card card-cover overflow-hidden text-bg-dark rounded-4" style="background-image: url('{{ course_type.category_image }}');">
+                                        <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
+                                            <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ course_type.name }}</h3>
+                                            <ul class="d-flex list-unstyled mt-auto">
+                                            </ul>
+                                        </div>
+                                    </div>
+                                </a>
+                            </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </section>
+
         {% for question in list_of_values %}
             {% include 'personal/snippets/body_snippet.html' with value=question %}
         {% endfor %}
