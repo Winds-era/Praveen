@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'quiz',
     'questions',
     'results',
+    'course',
 ]
 
 MIDDLEWARE = [
@@ -126,7 +127,7 @@ AUTH_USER_MODEL = 'user_account.User'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
-    BASE_DIR / 'quizes' /'static',
+    BASE_DIR / 'quizes' / 'static',
 ]
 
 # Default primary key field type

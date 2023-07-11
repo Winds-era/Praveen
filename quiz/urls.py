@@ -25,9 +25,13 @@ urlpatterns = [
     path('<pk>/', quiz_view, name='quiz-view'),
     path('<pk>/save/', save_quiz_view, name='save-view'),
     path('<pk>/data/', quiz_data_view, name='quiz-data-view'),
+<<<<<<< HEAD
     path('question-list/<int:quiz_id>/', question_list, name='question_list'),
     path('add-question/<int:quiz_id>/', add_question, name='add_question'),
     path('delete-question/<int:question_id>/', delete_question, name='delete_question'),
     path('update-question/<int:question_id>/', update_question, name='update_question'),
    
 ]
+=======
+]
+>>>>>>> dd5c4e7c728b5f2f9b15d788fd33fb44427a83bd
