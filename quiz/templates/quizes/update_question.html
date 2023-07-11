@@ -1,13 +1,14 @@
-<!-- add_quiz.html -->
+<!-- update_question.html -->
 {% extends "root.html" %}
 {% block content %}
-<div>
-    <h1>Add Quiz</h1>
-
+    <h1>Update Question</h1>
     <form method="post">
         {% csrf_token %}
         {{ form.as_p }}
+        {{ formset.management_form }}
+        {% for answer_form in formset %}
+            {{ answer_form.as_table }}
+        {% endfor %}
         <button type="submit">Save</button>
     </form>
-</div>
 {% endblock content %}
