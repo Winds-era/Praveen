@@ -39,18 +39,19 @@ def course_detail(request, name):
     else:
         return render(request, 'courses/M_filtered.html', context)
 
+
 def filtered_content(request, name, slug):
-    a = Course.objects.filter(slug=slug).first()  # Use .first() instead of .get() to retrieve a single object
+    courses = Course.objects.filter(slug=slug)
 
     if request.method == 'POST':
-        form = CourseForm(request.POST, request.FILES, instance=a)  # Pass the instance to the form for updating
+        form = CourseForm(request.POST, request.FILES, instance=courses.first())  # Pass the instance to the form for updating
         if form.is_valid():
             form.save()
     else:
-        form = CourseForm(instance=a)  # Pass the instance to the form for pre-populating fields
+        form = CourseForm(instance=courses.first())  # Pass the instance to the form for pre-populating fields
 
     context = {
-        'a': a,
+        'courses': courses,
         'form': form,
     }
 

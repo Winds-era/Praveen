@@ -15,8 +15,7 @@ class Course(models.Model):
         ('DRAFT', 'DRAFT'),
     )
 
-    featured_image = models.ImageField(
-        upload_to="featured_img/", blank=True)
+    featured_image = models.ImageField(upload_to="featured_img/", blank=True)
     video_file = models.FileField(upload_to='videos/', null=True)
     title = models.CharField(max_length=500)
     created_at = models.DateField(auto_now_add=True)
@@ -27,3 +26,4 @@ class Course(models.Model):
 
     def __str__(self):
         return self.title
+    
