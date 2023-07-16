@@ -29,7 +29,7 @@
                         {% for course_type in catogery %}
                             <div class="col">
                                 <a href="{{ course_type.name }}/">
-                                    <div class="card card-cover overflow-hidden text-bg-dark rounded-4" style="background-image: url('{{ course_type.category_image }}');">
+                                    <div class="card card-cover overflow-hidden text-bg-dark rounded-4" style="background-image: url('{{ course_type.category_image.url }}');">
                                         <div class="d-flex flex-column h-100 p-5 pb-3 text-white text-shadow-1">
                                             <h3 class="pt-5 mt-5 mb-4 display-6 lh-1 fw-bold">{{ course_type.name }}</h3>
                                             <ul class="d-flex list-unstyled mt-auto">
