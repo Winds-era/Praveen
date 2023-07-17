@@ -11,7 +11,7 @@ from django.forms import inlineformset_factory
 def question_list(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = quiz.question_set.all()
-    return render(request, 'quizes/question_list.html', {'quiz': quiz, 'questions': questions})
+    return render(request, 'quiz/question_list.html', {'quiz': quiz, 'questions': questions})
 
 def add_question(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -28,7 +28,7 @@ def add_question(request, quiz_id):
     else:
         question_form = QuestionForm()
         answer_formset = AnswerFormSet()
-    return render(request, 'quizes/add_question.html', {'quiz': quiz, 'question_form': question_form, 'answer_formset': answer_formset})
+    return render(request, 'quiz/add_question.html', {'quiz': quiz, 'question_form': question_form, 'answer_formset': answer_formset})
 
 def delete_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
@@ -52,7 +52,7 @@ def update_question(request, question_id):
     else:
         form = QuestionForm(instance=question)
         formset = AnswerFormSet(instance=question)
-    return render(request, 'quizes/update_question.html', {'form': form, 'formset': formset})
+    return render(request, 'quiz/update_question.html', {'form': form, 'formset': formset})
 
 def delete_answer(request, answer_id):
     answer = get_object_or_404(Answer, id=answer_id)
@@ -64,7 +64,7 @@ def delete_answer(request, answer_id):
 
 def quizzes(request):
     quizzes = Quiz.objects.all()
-    return render(request, 'quizes/quizzes.html', {'quizzes': quizzes})
+    return render(request, 'quiz/quizzes.html', {'quizzes': quizzes})
 
 def add_quiz(request):
     if request.method == 'POST':
@@ -74,7 +74,7 @@ def add_quiz(request):
             return redirect('quiz:quizzes')
     else:
         form = QuizForm()
-    return render(request, 'quizes/add_quiz.html', {'form': form})
+    return render(request, 'quiz/add_quiz.html', {'form': form})
 
 def update_quiz(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
@@ -85,7 +85,7 @@ def update_quiz(request, quiz_id):
             return redirect('quiz:quizzes')
     else:
         form = QuizForm(instance=quiz)
-    return render(request, 'quizes/update_quiz.html', {'form': form, 'quiz': quiz})
+    return render(request, 'quiz/update_quiz.html', {'form': form, 'quiz': quiz})
 
 
 def delete_quiz(request, quiz_id):
@@ -98,11 +98,11 @@ def delete_quiz(request, quiz_id):
 
 class QuizListView(ListView):
     model = Quiz 
-    template_name = 'quizes/main.html'
+    template_name = 'quiz/main.html'
 
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
-    return render(request, 'quizes/quiz.html', {'obj': quiz})
+    return render(request, 'quiz/quiz.html', {'obj': quiz})
 
 def quiz_data_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)

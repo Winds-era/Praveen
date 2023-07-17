@@ -1,8 +1,4 @@
         <div>
-        <h1>This is the Student body</h1>
-        <p>here is where you put the stuff that should be there in the website.</p>
-        <p>{{some_string}}</p>
-        <p>{{some_number}}</p>
         <h4><a class="nav-link" href={% url 'quiz:main-view' %} style="color:blue">Attempt Quiz</a></h4>
 
         <style>
@@ -43,8 +39,4 @@
                 </div>
             </div>
         </section>
-
-        {% for question in list_of_values %}
-            {% include 'personal/snippets/body_snippet.html' with value=question %}
-        {% endfor %}
         </div>
