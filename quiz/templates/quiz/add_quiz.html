@@ -1,0 +1,13 @@
+<!-- add_quiz.html -->
+{% extends "root.html" %}
+{% block content %}
+<div>
+    <h1>Add Quiz</h1>
+
+    <form method="post">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit">Save</button>
+    </form>
+</div>
+{% endblock content %}
