@@ -8,6 +8,9 @@
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link disabled" style="color:white">Welcome {{ request.user.username }}</a></li>
             <li class="nav-item"><a class="nav-link" href={% url 'website_content:home' %} style="color:white"> Home</a></li>
+            {% if request.user.user_role == 'STUDENT' %}
+              <li class="nav-item"><a class="nav-link" href={% url 'website_content:plan_details' %} style="color:white">⭐ Upgrade Plan</a></li>
+            {% endif %}
         </ul>
         <ul class="navbar-nav">
             <li class="nav-item"><a class="nav-link" href={% url 'user_account:logout' %} style="color:white">

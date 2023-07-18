@@ -59,3 +59,8 @@ def filtered_content(request, name, slug):
         return render(request, 'courses/course_content.html', context)
     else:
         return render(request, 'courses/M_course.html', context)
+    
+
+#membership pages
+def plan_details(request):
+    return render(request, 'website_content/plans.html')
