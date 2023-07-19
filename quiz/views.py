@@ -62,37 +62,39 @@ def delete_answer(request, answer_id):
     else:
         return HttpResponseNotAllowed(['POST'])
 
-def quizzes(request):
-    quizzes = Quiz.objects.all()
-    return render(request, 'quiz/quizzes.html', {'quizzes': quizzes})
+def quizzes(request, slug):
+    quizzes = Quiz.objects.filter(topic=slug)
+    return render(request, 'quiz/quizzes.html', {'quizzes': quizzes, 'slug': slug})
 
-def add_quiz(request):
+def add_quiz(request, slug):
     if request.method == 'POST':
         form = QuizForm(request.POST)
         if form.is_valid():
+            quiz = form.save(commit=False)
+            quiz.topic = slug
             form.save()
-            return redirect('quiz:quizzes')
+            return redirect('quiz:quizzes', slug=slug)
     else:
         form = QuizForm()
     return render(request, 'quiz/add_quiz.html', {'form': form})
 
-def update_quiz(request, quiz_id):
+def update_quiz(request, quiz_id, slug):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
         form = QuizForm(request.POST, instance=quiz)
         if form.is_valid():
             form.save()
-            return redirect('quiz:quizzes')
+            return redirect('quiz:quizzes', slug=slug)
     else:
         form = QuizForm(instance=quiz)
-    return render(request, 'quiz/update_quiz.html', {'form': form, 'quiz': quiz})
+    return render(request, 'quiz/update_quiz.html', {'form': form, 'quiz': quiz, 'slug': slug})
 
 
-def delete_quiz(request, quiz_id):
+def delete_quiz(request, quiz_id, slug):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
         quiz.delete()
-        return redirect('quiz:quizzes')
+        return redirect('quiz:quizzes', slug=slug)
     else:
         return HttpResponseNotAllowed(['POST'])
 

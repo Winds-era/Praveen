@@ -53,6 +53,7 @@ def filtered_content(request, name, slug):
     context = {
         'courses': courses,
         'form': form,
+        'slug': slug,
     }
 
     if request.user.user_role == 'STUDENT':
