@@ -3,24 +3,26 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager
 
 
 class UserManager(BaseUserManager):
-    def create_user(self, username, user_role, email=None, password=None):
+    def create_user(self, username, user_role, plan, email=None, password=None):
         if not username:
             raise ValueError('Valid username should be provided')
         base_user = self.model(
             email=self.normalize_email(email),
             username=username,
             user_role=user_role,
+            plan=plan
         )
         base_user.set_password(password)
         base_user.save(using=self._db)
         return base_user
 
-    def create_superuser(self, email, username, password, user_role):
+    def create_superuser(self, email, username, password, user_role, plan):
         super_user = self.create_user(
             email=self.normalize_email(email),
             password=password,
             username=username,
             user_role=user_role,
+            plan=plan
         )
         super_user.is_admin = True
         super_user.is_staff = True
@@ -42,8 +44,14 @@ class User(AbstractBaseUser):
         ('MENTOR', 'Mentor'),
         ('ADMIN', 'Admin')
     ]
+    plan_choices = [
+        ('Basic', 'Basic'),
+        ('Super', 'Super'),
+        ('Pro', 'Pro')
+    ]
     email = models.EmailField(max_length=60, unique=True)
     user_role = models.CharField(max_length=10, choices=user_choices)
+    plan = models.CharField(max_length=10, choices=plan_choices, default='Basic')
     USERNAME_FIELD = 'username'
     REQUIRED_FIELDS = ['email', 'user_role']
     objects = UserManager()

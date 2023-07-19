@@ -1,0 +1,87 @@
+{% extends 'root.html' %}
+{% block head %}
+    <title>Plan Selection</title>
+    <style>
+        .plan-card {
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            padding: 20px;
+            margin: 10px;
+            width: 300px;
+            display: inline-block;
+            text-align: center;
+        }
+        
+        .plan-card h3 {
+            color: #333;
+        }
+        
+        .plan-card p {
+            color: #777;
+        }
+        
+        .select-btn {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 10px 20px;
+            text-align: center;
+            text-decoration: none;
+            display: inline-block;
+            font-size: 16px;
+            margin: 10px 2px;
+            cursor: pointer;
+        }
+    </style>
+{% endblock head %}
+
+{% block content %}
+    <h2>Please Upgrade Your Plan To Enjoy Our Premium Features</h2>
+    <div class="plan-card">
+        <h3>Basic Plan</h3>
+        <p>Features:</p>
+        <ul>
+            <li>Feature 1</li>
+            <li>Feature 2</li>
+            <li>Feature 3</li>
+        </ul>
+        {% if request.user.plan == 'Basic' %}
+            <a href="#" class="select-btn">Selected</a>
+        {% else %}
+            <a href="#" class="select-btn">Downgrade ☹️</a>
+        {% endif %}
+    </div>
+
+    <div class="plan-card">
+        <h3>Super Plan</h3>
+        <p>Features:</p>
+        <ul>
+            <li>Feature 1</li>
+            <li>Feature 2</li>
+            <li>Feature 3</li>
+        </ul>
+        {% if request.user.plan == 'Super' %}
+            <a href="#" class="select-btn">Selected</a>
+        {% elif request.user.plan == 'Basic' %}
+            <a href="#" class="select-btn">Upgrade 😃</a>
+        {% else %}
+            <a href="#" class="select-btn">Downgrade ☹️</a>
+        {% endif %}
+    </div>
+
+    <div class="plan-card">
+        <h3>Pro Plan</h3>
+        <p>Features:</p>
+        <ul>
+            <li>Feature 1</li>
+            <li>Feature 2</li>
+            <li>Feature 3</li>
+        </ul>
+        {% if request.user.plan == 'Pro' %}
+            <a href="#" class="select-btn">Selected</a>
+        {% else %}
+            <a href="#" class="select-btn">Upgrade 😃</a>
+        {% endif %}
+    </div>
+{% endblock content %}
