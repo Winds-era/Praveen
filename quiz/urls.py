@@ -17,10 +17,10 @@ from .views import (
 app_name = 'quiz'
 
 urlpatterns = [
-    path('quizzes/', quizzes, name='quizzes'),
-    path('add_quiz/', add_quiz, name='add_quiz'),
-    path('update-quiz/<int:quiz_id>/', update_quiz, name='update_quiz'),
-    path('delete-quiz/<int:quiz_id>/', delete_quiz, name='delete_quiz'),
+    path('quizzes/<str:slug>/', quizzes, name='quizzes'),
+    path('add_quiz/<str:slug>/', add_quiz, name='add_quiz'),
+    path('update-quiz/<int:quiz_id>/<str:slug>/', update_quiz, name='update_quiz'),
+    path('delete-quiz/<int:quiz_id>/<str:slug>/', delete_quiz, name='delete_quiz'),
     path('', QuizListView.as_view(), name='main-view'),
     path('<pk>/', quiz_view, name='quiz-view'),
     path('<pk>/save/', save_quiz_view, name='save-view'),

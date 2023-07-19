@@ -4,12 +4,12 @@
 <div>
     <h1>Quiz Manager</h1>
 
-    <a href="{% url 'quiz:add_quiz' %}"><button>Add New Quiz</button></a>
+    <a href="{% url 'quiz:add_quiz' slug=slug %}"><button>Add New Quiz</button></a>
 
     <h2>Previous Quizzes</h2>
     <ul>
         {% for quiz in quizzes %}
-            <li><a href="{% url 'quiz:update_quiz' quiz.id %}">{{ quiz.name }}</a></li>
+            <li><a href="{% url 'quiz:update_quiz' quiz_id=quiz.id slug=slug %}">{{ quiz.name }}</a></li>
         {% empty %}
             <li>No quizzes found.</li>
         {% endfor %}

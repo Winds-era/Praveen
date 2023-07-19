@@ -1,7 +1,7 @@
 {% extends 'root.html' %} {% block content %}
 <h1>Mentor Content</h1>
 <button id="add-course-button"  data-bs-toggle="modal" data-bs-target="#addCategoryModal">Add/Update Content</button>
-
+<h4><a class="nav-link" href="{% url 'quiz:quizzes' slug=slug %}" style="color:blue">Create Quiz</a></h4>
 
 <div class="container">
   <div class="row">

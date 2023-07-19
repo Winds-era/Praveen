@@ -10,12 +10,13 @@
         <button type="submit">Save</button>
     </form>
 
-    <form method="post" action="{% url 'quiz:delete_quiz' quiz.id %}">
+    <form method="post" action="{% url 'quiz:delete_quiz' quiz.id slug %}">
         {% csrf_token %}
         <button type="submit">Delete Quiz</button>
     </form>
     
-    <a href="{% url 'quiz:question_list' quiz.id %}">View Questions</a>
+    
+    <a href="{% url 'quiz:question_list' quiz.id  %}">View Questions</a>
 </div>
 {% endblock content %}
 
