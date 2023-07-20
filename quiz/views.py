@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from .models import Quiz
-from django.views.generic import ListView
+from django.views import View
 from django.http import HttpResponseNotAllowed, JsonResponse
 from questions.models import Question, Answer
 from results.models import Result
@@ -98,9 +98,12 @@ def delete_quiz(request, quiz_id, slug):
     else:
         return HttpResponseNotAllowed(['POST'])
 
-class QuizListView(ListView):
-    model = Quiz 
-    template_name = 'quiz/main.html'
+class Quiz_list_view(View):
+    def get(self,request,slug):
+        context={}
+        context['object_list'] = Quiz.objects.filter(topic=slug)
+        return render(request,'quiz/main.html',context)
+
 
 def quiz_view(request, pk):
     quiz = Quiz.objects.get(pk=pk)
