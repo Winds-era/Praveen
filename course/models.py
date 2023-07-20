@@ -23,6 +23,7 @@ class Course(models.Model):
     description = models.TextField()
     slug = models.SlugField(default='', max_length=500, null=True, blank=True)
     status = models.CharField(choices=STATUS, max_length=100, null=True)
+    author = models.CharField(max_length=100, blank=True)
 
     def __str__(self):
         return self.title

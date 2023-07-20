@@ -9,4 +9,4 @@ class CategoryForm(forms.ModelForm):
 class CourseForm(forms.ModelForm):
     class Meta:
         model = Course
-        fields = ['featured_image', 'video_file', 'title', 'category', 'description', 'status']
+        fields = ['featured_image', 'video_file', 'title', 'description', 'status']
