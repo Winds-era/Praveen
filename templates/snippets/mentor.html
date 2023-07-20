@@ -1,9 +1,4 @@
 <div>
-    <h1>This is the Mentor body</h1>
-    <p>Here is where you put the stuff that should be there on the website.</p>
-    <p>{{ some_string }}</p>
-    <p>{{ some_number }}</p>
-
     <style>
         .text-shadow-1 {
             text-shadow: 0 .125rem .25rem rgba(0, 0, 0, .25);
@@ -53,10 +48,6 @@
             </div>
         </div>
     </section>
-
-    {% for question in list_of_values %}
-    {% include 'personal/snippets/body_snippet.html' with value=question %}
-    {% endfor %}
 </div>
 
 <!-- Add the following modal code -->
