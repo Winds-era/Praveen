@@ -24,6 +24,7 @@ def course_detail(request, name):
 def filtered_content(request, name, slug):
     a = Course.objects.filter(slug=slug)
     context = {
-        'a': a
+        'a': a,
+        'slug':slug
     }
     return render(request, 'courses/course_content.html', context)
