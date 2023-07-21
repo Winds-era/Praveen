@@ -62,9 +62,9 @@
     <li>Feature 3</li>
   </ul>
   {% if request.user.plan == 'Basic' %}
-  <a href="#" class="select-btn">Selected</a>
+  <a class="select-btn">Selected</a>
   {% else %}
-  <a href="#" class="select-btn">Downgrade ☹️</a>
+  <a href="{% url 'website_content:pay' 0 %}" class="select-btn">Downgrade ☹️</a>
   {% endif %}
 </div>
 
@@ -77,11 +77,11 @@
     <li>Feature 3</li>
   </ul>
   {% if request.user.plan == 'Super' %}
-  <a href="#" class="select-btn">Selected</a>
+  <a class="select-btn">Selected</a>
   {% elif request.user.plan == 'Basic' %}
-  <a href="#" class="select-btn">Upgrade 😃</a>
+  <a href="{% url 'website_content:pay' 10 %}" class="select-btn">Upgrade 😃</a>
   {% else %}
-  <a href="#" class="select-btn">Downgrade ☹️</a>
+  <a href="{% url 'website_content:pay' 10 %}" class="select-btn">Downgrade ☹️</a>
   {% endif %}
 </div>
 
@@ -94,9 +94,9 @@
     <li>Feature 3</li>
   </ul>
   {% if request.user.plan == 'Pro' %}
-  <a href="{urls ''}" class="select-btn">Selected</a>
+  <a class="select-btn">Selected</a>
   {% else %}
-  <a href="#" class="select-btn">Upgrade 😃</a>
+  <a href="{% url 'website_content:pay' 15 %}" class="select-btn">Upgrade 😃</a>
   {% endif %}
 </div>
 {% endblock content %}

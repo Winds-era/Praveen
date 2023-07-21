@@ -49,6 +49,11 @@ def course_detail(request, name):
         return render(request, 'courses/M_filtered.html', context)
 
 
+
+def pay(request, price):    
+    return render(request, 'website_content/payment.html', {'price': price})
+
+
 def filtered_content(request, name, slug):
     courses = Course.objects.filter(slug=slug)
 
@@ -74,4 +79,17 @@ def filtered_content(request, name, slug):
 
 # membership pages
 def plan_details(request):
+    return render(request, 'website_content/plans.html')
+
+def handle_transaction(request, price):
+    print("inside handle")
+    if price=='0':
+        plan = 'Basic'
+    elif price=='10':
+        plan = 'Super'
+    else:
+        plan = 'Pro'
+    user = request.user
+    user.plan = plan
+    user.save()
     return render(request, 'website_content/plans.html')
