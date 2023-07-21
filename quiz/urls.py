@@ -25,8 +25,8 @@ urlpatterns = [
     path('<str:slug>/<int:pk>/', quiz_view, name='quiz-view'),
     path('<str:slug>/<int:pk>/save/', save_quiz_view, name='save-view'),
     path('<str:slug>/<int:pk>/data/', quiz_data_view, name='quiz-data-view'),
-    path('question-list/<int:quiz_id>/', question_list, name='question_list'),
-    path('add-question/<int:quiz_id>/', add_question, name='add_question'),
-    path('delete-question/<int:question_id>/', delete_question, name='delete_question'),
-    path('update-question/<int:question_id>/', update_question, name='update_question'), 
+    path('update/question-list/<int:quiz_id>/', question_list, name='question_list'),
+    path('update/add-question/<int:quiz_id>/', add_question, name='add_question'),
+    path('update/delete-question/<int:question_id>/', delete_question, name='delete_question'),
+    path('update/update-question/<int:question_id>/', update_question, name='update_question'),
 ]

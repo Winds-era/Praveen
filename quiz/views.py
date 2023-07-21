@@ -4,18 +4,40 @@ from django.views import View
 from django.http import HttpResponseNotAllowed, JsonResponse
 from questions.models import Question, Answer
 from results.models import Result
-from .forms import QuizForm, QuestionForm, AnswerFormSet
+from .forms import QuizForm, QuestionForm, AnswerFormSet, QuizUploadForm
 from django.shortcuts import get_object_or_404
 from django.forms import inlineformset_factory
+import json
 
 def question_list(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = quiz.question_set.all()
-    return render(request, 'quiz/question_list.html', {'quiz': quiz, 'questions': questions})
+    form = QuizUploadForm()
+    if request.POST:
+        form = QuizUploadForm(request.POST, request.FILES)
+        if form.is_valid():
+            json_file = form.cleaned_data['json_file']
+            json_data = json.load(json_file)
+            for question in json_data:
+                question_instance = Question(
+                    text=question['text'],
+                    quiz=quiz,
+                )
+                question_instance.save()
+                for answer in question['answers']:
+                    answer_instance = Answer(
+                        text=answer['text'],
+                        correct=answer['correct'],
+                        question=question_instance,
+                    )
+                    answer_instance.save()
+        return redirect('quiz:question_list', quiz_id=quiz.id)
+    return render(request, 'quiz/question_list.html', {'quiz': quiz, 'questions': questions, 'form': form})
 
 def add_question(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
+        print(request.POST)
         question_form = QuestionForm(request.POST)
         answer_formset = AnswerFormSet(request.POST)
         if question_form.is_valid() and answer_formset.is_valid():
