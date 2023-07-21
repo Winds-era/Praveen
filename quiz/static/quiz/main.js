@@ -1,11 +1,9 @@
 console.log('hello world')
-
 const modalBtns = [...document.getElementsByClassName('modal-button')]
 const modalBody = document.getElementById('modal-body-confirm')
 const startBtn = document.getElementById('start-button')
 
 const url = window.location.href
-
 modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click', ()=>{
     const pk = modalBtn.getAttribute('data-pk')
     const name = modalBtn.getAttribute('data-quiz')
@@ -27,6 +25,7 @@ modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click', ()=>{
     `
 
     startBtn.addEventListener('click', ()=>{
-        window.location.href = url + pk
+        const newUrl = url.endsWith('/') ? url : url + '/';
+        window.location.href = newUrl + pk;
     })
 }))

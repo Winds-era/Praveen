@@ -20,7 +20,6 @@ AnswerFormSet = forms.inlineformset_factory(
     Question,
     Answer,
     fields=('text', 'correct'),
-    extra=0,
     can_delete=False,
     min_num=1,
     validate_min=True,

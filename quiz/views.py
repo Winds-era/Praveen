@@ -1,4 +1,4 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, HttpResponse
 from .models import Quiz
 from django.views import View
 from django.http import HttpResponseNotAllowed, JsonResponse
@@ -105,11 +105,11 @@ class Quiz_list_view(View):
         return render(request,'quiz/main.html',context)
 
 
-def quiz_view(request, pk):
+def quiz_view(request, slug, pk):
     quiz = Quiz.objects.get(pk=pk)
-    return render(request, 'quiz/quiz.html', {'obj': quiz})
+    return render(request, 'quiz/quiz.html', {'obj': quiz, 'slug':slug})
 
-def quiz_data_view(request, pk):
+def quiz_data_view(request,slug,pk):
     quiz = Quiz.objects.get(pk=pk)
     questions = []
     for q in quiz.get_questions():
@@ -122,8 +122,8 @@ def quiz_data_view(request, pk):
         'time': quiz.time,
     })
 
-def save_quiz_view(request, pk):
-    if request.is_ajax():
+def save_quiz_view(request,slug, pk):
+    if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         questions = []
         data = request.POST
         data_ = dict(data.lists())
