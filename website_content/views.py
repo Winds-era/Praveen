@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from course.models import Catogaries, Course
-from course.forms import CategoryForm, CourseForm
+from course.forms import CategoryForm, CourseForm #ZipUploadForm
 import re
+from django.conf import settings
 
 
 # Create your views here.
@@ -49,6 +50,11 @@ def course_detail(request, name):
         return render(request, 'courses/M_filtered.html', context)
 
 
+
+def pay(request, price):
+    return render(request, 'website_content/payment.html', {'price': price})
+
+
 def filtered_content(request, name, slug):
     courses = Course.objects.filter(slug=slug)
 
@@ -75,3 +81,16 @@ def filtered_content(request, name, slug):
 # membership pages
 def plan_details(request):
     return render(request, 'website_content/plans.html')
+
+def handle_transaction(request, price):
+    print("inside handle")
+    if price=='0':
+        plan = 'Basic'
+    elif price=='10':
+        plan = 'Super'
+    else:
+        plan = 'Pro'
+    user = request.user
+    user.plan = plan
+    user.save()
+    return redirect('website_content:plan_details')
