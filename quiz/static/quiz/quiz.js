@@ -102,7 +102,7 @@ const sendData = () => {
         success: function(response){
             const results = response.results
             console.log(results)
-            quizForm.classList.add('not-visible')
+            quizForm.style.display = "none";
 
             scoreBox.innerHTML = `${response.passed ? 'Congratulations! ' : 'Ups..:( '}Your result is ${response.score.toFixed(2)}%`
 
@@ -143,6 +143,5 @@ const sendData = () => {
 
 quizForm.addEventListener('submit', e=>{
     e.preventDefault()
-
     sendData()
 })

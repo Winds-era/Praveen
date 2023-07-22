@@ -7,6 +7,7 @@ from results.models import Result
 from .forms import QuizForm, QuestionForm, AnswerFormSet, QuizUploadForm
 from django.shortcuts import get_object_or_404
 from django.forms import inlineformset_factory
+from django.db.models import OuterRef, Subquery
 import json
 
 def question_list(request, quiz_id):
@@ -123,7 +124,9 @@ def delete_quiz(request, quiz_id, slug):
 class Quiz_list_view(View):
     def get(self,request,slug):
         context={}
-        context['object_list'] = Quiz.objects.filter(topic=slug)
+        score_subquery = Result.objects.filter(quiz=OuterRef('pk')).values('quiz').order_by('-score').values('score')[
+                         :1]
+        context['object_list'] = Quiz.objects.filter(topic=slug).annotate(score=Subquery(score_subquery))
         return render(request,'quiz/main.html',context)
 
 
