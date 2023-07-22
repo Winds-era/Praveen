@@ -11,8 +11,20 @@ modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click', ()=>{
     const difficulty = modalBtn.getAttribute('data-difficulty')
     const scoreToPass = modalBtn.getAttribute('data-pass')
     const time = modalBtn.getAttribute('data-time')
-
-    modalBody.innerHTML = `
+    const score = modalBtn.getAttribute('data-score')
+    if( score>=0 ){
+        modalBody.innerHTML = `
+            <div class="h5 mb-3"> You have already attempted "<b>${name}</b>"</div>
+            <div class="text-muted">
+                <ul>
+                    <li>result: <b>${score}</b></li>
+                </ul>
+            </div>
+         `
+        startBtn.style.display = "none";
+    }
+    else{
+           modalBody.innerHTML = `
         <div class="h5 mb-3">Are you sure you want to begin "<b>${name}</b>"?</div>
         <div class="text-muted">
             <ul>
@@ -23,6 +35,7 @@ modalBtns.forEach(modalBtn=> modalBtn.addEventListener('click', ()=>{
             </ul>
         </div>
     `
+    }
 
     startBtn.addEventListener('click', ()=>{
         const newUrl = url.endsWith('/') ? url : url + '/';

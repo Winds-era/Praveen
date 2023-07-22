@@ -10,6 +10,8 @@ class QuizForm(forms.ModelForm):
         widgets = {
             'difficulty': forms.Select(choices=DIFF_CHOICES)
         }
+class QuizUploadForm(forms.Form):
+    json_file = forms.FileField(label='Upload JSON File')
 
 class QuestionForm(forms.ModelForm):
     class Meta:

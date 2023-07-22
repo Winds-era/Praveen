@@ -64,7 +64,7 @@
   {% if request.user.plan == 'Basic' %}
   <a class="select-btn">Selected</a>
   {% else %}
-  <a href="{% url 'website_content:pay' 0 %}" class="select-btn">Downgrade ☹️</a>
+  <a href="{% url 'website_content:handle_transaction' 0 %}" class="select-btn">Downgrade ☹️</a>
   {% endif %}
 </div>
 

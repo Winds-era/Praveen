@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import home_view, pay, handle_transaction, course_detail, filtered_content, plan_details
+from .views import home_view, course_detail, filtered_content, plan_details, pay, handle_transaction
 from . import views
 
 

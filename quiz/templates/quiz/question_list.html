@@ -2,7 +2,12 @@
 {% extends "root.html" %}
 {% block content %}
     <h1>Questions for {{ quiz.name }}</h1>
-    <a href="{% url 'quiz:add_question' quiz.id %}"><button>Add New Question</button></a>
+    <p><a href="{% url 'quiz:add_question' quiz.id %}"><button>Add New Question</button></a></p>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form }}
+            <button type="submit" class="btn btn-primary mt-4">Upload</button>
+        </form>
     <ul>
         {% for question in questions %}
             <li>

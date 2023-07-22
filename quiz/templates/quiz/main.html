@@ -13,8 +13,8 @@
       </div>
       <div class="modal-body" id="modal-body-confirm"></div>
       <div class="modal-footer">
-        <button type="button"  class="btn btn-danger" data-bs-dismiss="modal">no</button>
-        <button type="button" id="start-button" class="btn btn-success">yes</button>
+               <button type="button" class="btn btn-danger" data-bs-dismiss="modal">back</button>
+               <button type="button" id="start-button" class="btn btn-success">yes</button>
       </div>
     </div>
   </div>
@@ -31,6 +31,7 @@
         data-difficulty="{{obj.difficulty}}"
         data-time="{{obj.time}}"
         data-pass = "{{obj.required_score_to_pass}}"
+        data-score = "{{ obj.score }}"
         data-bs-toggle="modal"
         data-bs-target="#quizStartModal">
         {{obj.name}}

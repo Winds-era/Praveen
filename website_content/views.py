@@ -1,7 +1,8 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from course.models import Catogaries, Course
-from course.forms import CategoryForm, CourseForm
+from course.forms import CategoryForm, CourseForm #ZipUploadForm
 import re
+from django.conf import settings
 
 
 # Create your views here.
@@ -50,7 +51,7 @@ def course_detail(request, name):
 
 
 
-def pay(request, price):    
+def pay(request, price):
     return render(request, 'website_content/payment.html', {'price': price})
 
 
@@ -92,4 +93,4 @@ def handle_transaction(request, price):
     user = request.user
     user.plan = plan
     user.save()
-    return render(request, 'website_content/plans.html')
+    return redirect('website_content:plan_details')
