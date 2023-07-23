@@ -1,5 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from course.models import Catogaries, Course
+from quiz.models import Quiz
+from results.models import Result
 from course.forms import CategoryForm, CourseForm #ZipUploadForm
 import re
 from django.conf import settings
@@ -94,3 +96,17 @@ def handle_transaction(request, price):
     user.plan = plan
     user.save()
     return redirect('website_content:plan_details')
+
+#Student grades
+def access_grades(request):
+    courses = Course.objects.filter(author=request.user)
+    course_slugs = courses.values_list('slug', flat=True)
+    quizzes = Quiz.objects.filter(topic__in=course_slugs)
+    results = Result.objects.filter(quiz__topic__in=course_slugs)
+
+    context = {
+        'courses': courses,
+        'quizzes': quizzes,
+        'results': results
+    }
+    return render(request, 'website_content/grades.html', context)

@@ -9,7 +9,7 @@
     <h2>Previous Quizzes</h2>
     <ul>
         {% for quiz in quizzes %}
-            <li><a href="{% url 'quiz:update_quiz' quiz_id=quiz.id slug=slug %}">{{ quiz.name }}</a></li>
+            <li><a href="{% url 'quiz:update_quiz' quiz_id=quiz.id slug=slug %}">{{ quiz.name|slice:"3:" }}</a></li>
         {% empty %}
             <li>No quizzes found.</li>
         {% endfor %}

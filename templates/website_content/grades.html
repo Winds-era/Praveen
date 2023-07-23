@@ -1,0 +1,26 @@
+{% extends 'root.html' %}
+
+{% block content %}
+{% for course in courses %}
+    <h1>{{ course.slug }}</h1>
+    {% for quiz in quizzes %}
+        {% if course.slug in quiz.topic %}
+            <h4>{{ quiz.name|slice:"3:" }}</h4>
+            <table>
+                <tr>
+                    <th>Student</th>
+                    <th>Score</th>
+                    <!-- Add more header columns if needed -->
+                </tr>
+                {% for result in quiz.result_set.all %}
+                    <tr>
+                        <td>{{ result.user }}</td>
+                        <td>{{ result.score }}</td>
+                        <!-- Display other result fields if needed -->
+                    </tr>
+                {% endfor %}
+            </table>
+        {% endif %}
+    {% endfor %}
+{% endfor %}
+{% endblock %}

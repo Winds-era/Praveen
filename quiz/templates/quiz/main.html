@@ -34,7 +34,7 @@
         data-score = "{{ obj.score }}"
         data-bs-toggle="modal"
         data-bs-target="#quizStartModal">
-        {{obj.name}}
+        {{obj.name|slice:"3:"}}
     </button><br>
 
 {% endfor %}

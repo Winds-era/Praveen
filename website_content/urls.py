@@ -1,5 +1,5 @@
 from django.urls import path, re_path
-from .views import home_view, course_detail, filtered_content, plan_details, pay, handle_transaction
+from .views import home_view, access_grades, course_detail, filtered_content, plan_details, pay, handle_transaction
 from . import views
 
 
@@ -11,4 +11,5 @@ urlpatterns = [
     path('plan/', plan_details, name='plan_details'),
     path('pay/<str:price>/', pay, name='pay'),
     path('handle-transaction/<str:price>/', handle_transaction, name='handle_transaction'),
+    path('access_grades/', access_grades, name='access_grades'),
 ]
