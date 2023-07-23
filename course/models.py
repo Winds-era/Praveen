@@ -22,7 +22,7 @@ class Course(models.Model):
     created_at = models.DateField(auto_now_add=True)
     category = models.ForeignKey(Catogaries, on_delete=models.DO_NOTHING)
     description = models.TextField()
-    zip_file = models.FileField(upload_to='zip_folders/', null=True, blank=True)
+    zip_file = models.FileField(upload_to='zip_folders/', null=True, blank=True, default=None)
     slug = models.SlugField(default='', max_length=500, null=True, blank=True)
     status = models.CharField(choices=STATUS, max_length=100, null=True)
     author = models.CharField(max_length=100, blank=True)
