@@ -1,10 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from course.models import Catogaries, Course
+from course.models import Catogaries, Course, CourseView
 from quiz.models import Quiz
 from results.models import Result
 from course.forms import CategoryForm, CourseForm #ZipUploadForm
 import re
 from django.conf import settings
+from django.contrib.auth.decorators import login_required
+
 
 
 # Create your views here.
@@ -59,7 +61,6 @@ def pay(request, price):
 
 def filtered_content(request, name, slug):
     courses = Course.objects.filter(slug=slug)
-
     if request.method == 'POST':
         form = CourseForm(request.POST, request.FILES,
                           instance=courses.first())  # Pass the instance to the form for updating
@@ -75,6 +76,11 @@ def filtered_content(request, name, slug):
     }
 
     if request.user.user_role == 'STUDENT':
+        course = get_object_or_404(Course, slug=slug)
+        course_view, created = CourseView.objects.get_or_create(user=request.user, course=course)
+        if not created:
+            course_view.view += 1
+            course_view.save()
         return render(request, 'courses/course_content.html', context)
     else:
         return render(request, 'courses/M_course.html', context)
@@ -110,3 +116,12 @@ def access_grades(request):
         'results': results
     }
     return render(request, 'website_content/grades.html', context)
+
+
+# views.py
+@login_required
+def course_view(request, slug):
+    course = get_object_or_404(Course, slug=slug)
+    course_views = CourseView.objects.filter(course=course).count()
+    detail= CourseView.objects.filter(course=course)
+    return render(request, 'website_content/course_view.html', {'course': course, 'course_views': course_views, 'detail': detail})

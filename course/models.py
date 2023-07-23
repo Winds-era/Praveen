@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 
 class Catogaries(models.Model):
@@ -29,3 +30,14 @@ class Course(models.Model):
     def __str__(self):
         return self.title
     
+
+User = get_user_model()
+
+class CourseView(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    course = models.ForeignKey(Course, on_delete=models.CASCADE)
+    view = models.IntegerField(default=1)
+    viewed_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        return f"{self.user.username} viewed {self.course.title}"
