@@ -122,6 +122,7 @@ AUTH_USER_MODEL = 'user_account.User'
 
 STATIC_URL = '/static/'
 MEDIA_URL = '/media/'
+TIME_ZONE = 'America/New_York'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
