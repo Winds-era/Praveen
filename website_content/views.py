@@ -9,6 +9,7 @@ from django.contrib.auth.decorators import login_required
 
 
 # Create your views here.
+
 def home_view(request):
     catogery = Catogaries.objects.all()
     course = Course.objects.filter(status='PUBLISH').order_by('-id')
@@ -28,6 +29,7 @@ def home_view(request):
     return render(request, 'website_content/home_page.html', context)
 
 
+@login_required
 def course_detail(request, name):
     if request.method == 'POST':
         form = CourseForm(request.POST, request.FILES)
@@ -54,11 +56,11 @@ def course_detail(request, name):
         context['filtered_courses'] = filtered_courses
         return render(request, 'courses/M_filtered.html', context)
 
-
+@login_required
 def pay(request, price):
     return render(request, 'website_content/payment.html', {'price': price})
 
-
+@login_required
 def filtered_content(request, name, slug):
     courses = Course.objects.filter(slug=slug)
     if request.method == 'POST':
@@ -88,10 +90,12 @@ def filtered_content(request, name, slug):
 
 
 # membership pages
+@login_required
 def plan_details(request):
     return render(request, 'website_content/plans.html')
 
 
+@login_required
 def handle_transaction(request, price):
     print("inside handle")
     if price == '0':
@@ -108,6 +112,7 @@ def handle_transaction(request, price):
 # Student grades
 
 
+@login_required
 def access_grades(request):
     courses = Course.objects.filter(author=request.user)
     course_slugs = courses.values_list('slug', flat=True)

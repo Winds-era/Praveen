@@ -1,8 +1,9 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate, logout
 from user_account.forms import RegistrationForm, UserAuthenticationForm
+from django.contrib.auth.decorators import login_required
 
-
+@login_required
 def registration_successful_view(request):
     context = {}
     return render(request, 'user_account/registration_successful.html', context)
