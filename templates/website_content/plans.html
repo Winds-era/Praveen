@@ -2,20 +2,21 @@
 <title>Plan Selection</title>
 <style>
   .plan-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     border: 1px solid #ccc;
     border-radius: 5px;
     padding: 20px;
     margin: 10px;
-    width: 300px;
-    display: inline-block;
     text-align: center;
-    background-color: #f8f8f8; /* Add a background color to the card */
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1); /* Add a subtle shadow */
+    background-color: #f8f8f8;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.1);
   }
 
   .plan-card h3 {
     color: #333;
-    margin-top: 0; /* Remove default margin from heading */
+    margin-top: 0;
   }
 
   .plan-card p {
@@ -23,12 +24,12 @@
   }
 
   .plan-card ul {
-    list-style-type: none; /* Remove bullet points from the list */
-    padding: 0; /* Remove default padding from the list */
+    list-style-type: none;
+    padding: 0;
   }
 
   .plan-card li {
-    margin-bottom: 10px; /* Add spacing between list items */
+    margin-bottom: 10px;
   }
 
   .select-btn {
@@ -43,60 +44,82 @@
     font-size: 16px;
     margin: 10px 2px;
     cursor: pointer;
-    transition: background-color 0.3s; /* Add a smooth transition effect */
+    transition: background-color 0.3s;
   }
 
-  /* Change the background color of the button when hovering */
   .select-btn:hover {
     background-color: #45a049;
   }
 </style>
 {% endblock head %} {% block content %}
-<h2>Please Upgrade Your Plan To Enjoy Our Premium Features</h2>
-<div class="plan-card">
-  <h3>Basic Plan</h3>
-  <p>Features:</p>
-  <ul>
-    <li>Feature 1</li>
-    <li>Feature 2</li>
-    <li>Feature 3</li>
-  </ul>
-  {% if request.user.plan == 'Basic' %}
-  <a class="select-btn">Selected</a>
-  {% else %}
-  <a href="{% url 'website_content:handle_transaction' 0 %}" class="select-btn">Downgrade ☹️</a>
-  {% endif %}
-</div>
+<div class="container">
+  <div class="row justify-content-center">
+    <h2 class="text-center mt-4">
+      Please Upgrade Your Plan To Enjoy Our Premium Features
+    </h2>
 
-<div class="plan-card">
-  <h3>Super Plan</h3>
-  <p>Features:</p>
-  <ul>
-    <li>Feature 1</li>
-    <li>Feature 2</li>
-    <li>Feature 3</li>
-  </ul>
-  {% if request.user.plan == 'Super' %}
-  <a class="select-btn">Selected</a>
-  {% elif request.user.plan == 'Basic' %}
-  <a href="{% url 'website_content:pay' 10 %}" class="select-btn">Upgrade 😃</a>
-  {% else %}
-  <a href="{% url 'website_content:pay' 10 %}" class="select-btn">Downgrade ☹️</a>
-  {% endif %}
-</div>
+    <div class="col-md-4">
+      <div class="plan-card">
+        <h3>Basic Plan</h3>
+        <p>Features:</p>
+        <ul>
+          <li>Feature 1</li>
+          <li>Feature 2</li>
+          <li>Feature 3</li>
+        </ul>
+        {% if request.user.plan == 'Basic' %}
+        <a class="select-btn">Selected</a>
+        {% else %}
+        <a
+          href="{% url 'website_content:handle_transaction' 0 %}"
+          class="select-btn"
+          >Downgrade ☹️</a
+        >
+        {% endif %}
+      </div>
+    </div>
 
-<div class="plan-card">
-  <h3>Pro Plan</h3>
-  <p>Features:</p>
-  <ul>
-    <li>Feature 1</li>
-    <li>Feature 2</li>
-    <li>Feature 3</li>
-  </ul>
-  {% if request.user.plan == 'Pro' %}
-  <a class="select-btn">Selected</a>
-  {% else %}
-  <a href="{% url 'website_content:pay' 15 %}" class="select-btn">Upgrade 😃</a>
-  {% endif %}
+    <div class="col-md-4">
+      <div class="plan-card">
+        <h3>Super Plan</h3>
+        <p>Features:</p>
+        <ul>
+          <li>Feature 1</li>
+          <li>Feature 2</li>
+          <li>Feature 3</li>
+        </ul>
+        {% if request.user.plan == 'Super' %}
+        <a class="select-btn">Selected</a>
+        {% elif request.user.plan == 'Basic' %}
+        <a href="{% url 'website_content:pay' 10 %}" class="select-btn"
+          >Upgrade 😃</a
+        >
+        {% else %}
+        <a href="{% url 'website_content:pay' 10 %}" class="select-btn"
+          >Downgrade ☹️</a
+        >
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="col-md-4">
+      <div class="plan-card">
+        <h3>Pro Plan</h3>
+        <p>Features:</p>
+        <ul>
+          <li>Feature 1</li>
+          <li>Feature 2</li>
+          <li>Feature 3</li>
+        </ul>
+        {% if request.user.plan == 'Pro' %}
+        <a class="select-btn">Selected</a>
+        {% else %}
+        <a href="{% url 'website_content:pay' 15 %}" class="select-btn"
+          >Upgrade 😃</a
+        >
+        {% endif %}
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock content %}

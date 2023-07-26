@@ -2,14 +2,14 @@ from django.shortcuts import render, redirect, get_object_or_404
 from course.models import Catogaries, Course, CourseView
 from quiz.models import Quiz
 from results.models import Result
-from course.forms import CategoryForm, CourseForm #ZipUploadForm
+from course.forms import CategoryForm, CourseForm  # ZipUploadForm
 import re
 from django.conf import settings
 from django.contrib.auth.decorators import login_required
 
 
-
 # Create your views here.
+
 def home_view(request):
     catogery = Catogaries.objects.all()
     course = Course.objects.filter(status='PUBLISH').order_by('-id')
@@ -29,6 +29,7 @@ def home_view(request):
     return render(request, 'website_content/home_page.html', context)
 
 
+@login_required
 def course_detail(request, name):
     if request.method == 'POST':
         form = CourseForm(request.POST, request.FILES)
@@ -41,7 +42,8 @@ def course_detail(request, name):
             form.save()
     else:
         form = CourseForm()
-    filtered_courses = Course.objects.filter(category=Catogaries.objects.get(name=name))
+    filtered_courses = Course.objects.filter(
+        category=Catogaries.objects.get(name=name))
     context = {
         'filtered_courses': filtered_courses,
         'form': form
@@ -49,25 +51,25 @@ def course_detail(request, name):
     if request.user.user_role == 'STUDENT':
         return render(request, 'courses/filtered_course.html', context)
     else:
-        filtered_courses = filtered_courses.filter(author=request.user.username)
+        filtered_courses = filtered_courses.filter(
+            author=request.user.username)
         context['filtered_courses'] = filtered_courses
         return render(request, 'courses/M_filtered.html', context)
 
-
-
+@login_required
 def pay(request, price):
     return render(request, 'website_content/payment.html', {'price': price})
 
-
+@login_required
 def filtered_content(request, name, slug):
     courses = Course.objects.filter(slug=slug)
     if request.method == 'POST':
         form = CourseForm(request.POST, request.FILES,
-                          instance=courses.first())  # Pass the instance to the form for updating
+                          instance=courses.first())
         if form.is_valid():
             form.save()
     else:
-        form = CourseForm(instance=courses.first())  # Pass the instance to the form for pre-populating fields
+        form = CourseForm(instance=courses.first())
 
     context = {
         'courses': courses,
@@ -77,7 +79,8 @@ def filtered_content(request, name, slug):
 
     if request.user.user_role == 'STUDENT':
         course = get_object_or_404(Course, slug=slug)
-        course_view, created = CourseView.objects.get_or_create(user=request.user, course=course)
+        course_view, created = CourseView.objects.get_or_create(
+            user=request.user, course=course)
         if not created:
             course_view.view += 1
             course_view.save()
@@ -87,14 +90,17 @@ def filtered_content(request, name, slug):
 
 
 # membership pages
+@login_required
 def plan_details(request):
     return render(request, 'website_content/plans.html')
 
+
+@login_required
 def handle_transaction(request, price):
     print("inside handle")
-    if price=='0':
+    if price == '0':
         plan = 'Basic'
-    elif price=='10':
+    elif price == '10':
         plan = 'Super'
     else:
         plan = 'Pro'
@@ -103,7 +109,10 @@ def handle_transaction(request, price):
     user.save()
     return redirect('website_content:plan_details')
 
-#Student grades
+# Student grades
+
+
+@login_required
 def access_grades(request):
     courses = Course.objects.filter(author=request.user)
     course_slugs = courses.values_list('slug', flat=True)
@@ -123,5 +132,5 @@ def access_grades(request):
 def course_view(request, slug):
     course = get_object_or_404(Course, slug=slug)
     course_views = CourseView.objects.filter(course=course).count()
-    detail= CourseView.objects.filter(course=course)
+    detail = CourseView.objects.filter(course=course)
     return render(request, 'website_content/course_view.html', {'course': course, 'course_views': course_views, 'detail': detail})

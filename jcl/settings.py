@@ -123,12 +123,13 @@ AUTH_USER_MODEL = 'user_account.User'
 STATIC_URL = '/static/'
 TIME_ZONE = 'America/New_York'
 MEDIA_URL = '/media/'
+TIME_ZONE = 'America/New_York'
 MEDIA_ROOT = os.path.join(BASE_DIR, 'Media')
 STATICFILES_DIRS = [
     BASE_DIR / 'static',
     BASE_DIR / 'quiz' / 'static',
 ]
-
+LOGIN_URL='http://127.0.0.1:8000/'
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 

@@ -8,8 +8,10 @@ from .forms import QuizForm, QuestionForm, AnswerFormSet, QuizUploadForm
 from django.shortcuts import get_object_or_404
 from django.forms import inlineformset_factory
 from django.db.models import OuterRef, Subquery
+from django.contrib.auth.decorators import login_required
 import json
 
+@login_required
 def question_list(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     questions = quiz.question_set.all()
@@ -35,6 +37,7 @@ def question_list(request, quiz_id):
         return redirect('quiz:question_list', quiz_id=quiz.id)
     return render(request, 'quiz/question_list.html', {'quiz': quiz, 'questions': questions, 'form': form})
 
+@login_required
 def add_question(request, quiz_id):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
@@ -53,6 +56,7 @@ def add_question(request, quiz_id):
         answer_formset = AnswerFormSet()
     return render(request, 'quiz/add_question.html', {'quiz': quiz, 'question_form': question_form, 'answer_formset': answer_formset})
 
+@login_required
 def delete_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
     if request.method == 'POST':
@@ -60,7 +64,9 @@ def delete_question(request, question_id):
         return redirect('quiz:question_list', quiz_id=question.quiz.id)
     else:
         return HttpResponseNotAllowed(['POST'])
-        
+
+
+@login_required
 def update_question(request, question_id):
     question = get_object_or_404(Question, id=question_id)
     AnswerFormSet = inlineformset_factory(Question, Answer, fields=('text', 'correct'), extra=0)
@@ -77,6 +83,7 @@ def update_question(request, question_id):
         formset = AnswerFormSet(instance=question)
     return render(request, 'quiz/update_question.html', {'form': form, 'formset': formset})
 
+@login_required
 def delete_answer(request, answer_id):
     answer = get_object_or_404(Answer, id=answer_id)
     if request.method == 'POST':
@@ -85,10 +92,12 @@ def delete_answer(request, answer_id):
     else:
         return HttpResponseNotAllowed(['POST'])
 
+@login_required
 def quizzes(request, slug):
     quizzes = Quiz.objects.filter(topic=slug)
     return render(request, 'quiz/quizzes.html', {'quizzes': quizzes, 'slug': slug})
 
+@login_required
 def add_quiz(request, slug):
     if request.method == 'POST':
         form = QuizForm(request.POST)
@@ -101,6 +110,7 @@ def add_quiz(request, slug):
         form = QuizForm()
     return render(request, 'quiz/add_quiz.html', {'form': form})
 
+@login_required
 def update_quiz(request, quiz_id, slug):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
@@ -112,7 +122,7 @@ def update_quiz(request, quiz_id, slug):
         form = QuizForm(instance=quiz)
     return render(request, 'quiz/update_quiz.html', {'form': form, 'quiz': quiz, 'slug': slug})
 
-
+@login_required
 def delete_quiz(request, quiz_id, slug):
     quiz = get_object_or_404(Quiz, id=quiz_id)
     if request.method == 'POST':
@@ -123,6 +133,8 @@ def delete_quiz(request, quiz_id, slug):
 
 class Quiz_list_view(View):
     def get(self,request,slug):
+        if not request.user.is_authenticated:
+            return redirect('user_account:login_first')
         context={}
         score_subquery = Result.objects.filter(quiz=OuterRef('pk')).values('quiz').order_by('-score').values('score')[
                          :1]
@@ -130,10 +142,12 @@ class Quiz_list_view(View):
         return render(request,'quiz/main.html',context)
 
 
+@login_required
 def quiz_view(request, slug, pk):
     quiz = Quiz.objects.get(pk=pk)
     return render(request, 'quiz/quiz.html', {'obj': quiz, 'slug':slug})
 
+@login_required
 def quiz_data_view(request,slug,pk):
     quiz = Quiz.objects.get(pk=pk)
     questions = []
@@ -147,6 +161,7 @@ def quiz_data_view(request,slug,pk):
         'time': quiz.time,
     })
 
+@login_required
 def save_quiz_view(request,slug, pk):
     if request.headers.get('x-requested-with') == 'XMLHttpRequest':
         questions = []
